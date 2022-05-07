@@ -1,7 +1,7 @@
 const ADDITEM = "items/ADDITEM" as const;
 const DELETEITEM = "items/DELETEITEM" as const;
 
-export const addItem = (item: object) => ({ type: ADDITEM, payload: item });
+export const addItem = (item: ItemState) => ({ type: ADDITEM, payload: item });
 export const deleteItem = (name: string) => ({ type: DELETEITEM, payload: name });
 
 type ItemAction = ReturnType<typeof addItem> | ReturnType<typeof deleteItem>;

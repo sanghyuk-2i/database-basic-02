@@ -1,6 +1,6 @@
 import React from "react";
 import MainItem from "../MainItem/MainItem";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../../Modules";
 
 const MainLists = (): JSX.Element => {
