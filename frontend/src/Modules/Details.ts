@@ -18,6 +18,7 @@ export type DetailState = {
 	name: string;
 	explain: string;
 	price: number;
+	image: string;
 	count: number;
 };
 

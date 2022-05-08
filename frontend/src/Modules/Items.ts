@@ -10,13 +10,14 @@ export type ItemState = {
 	name: string;
 	explain: string;
 	price: number;
+	image: string;
 };
 
 const Items = (
 	state = [
-		{ name: "허니버터칩", explain: "분류: 과자, 용량: 150g", price: 1500 },
-		{ name: "신라면", explain: "분류: 식품, 용량: 80g", price: 900 },
-		{ name: "콜라(500mL)", explain: "분류: 음료, 용량: 500mL", price: 1700 },
+		{ name: "허니버터칩", explain: "분류: 과자, 용량: 150g", price: 1500, image: "honey_chip.jpeg" },
+		{ name: "신라면", explain: "분류: 식품, 용량: 80g", price: 900, image: "ramen.jpeg" },
+		{ name: "콜라(500mL)", explain: "분류: 음료, 용량: 500mL", price: 1700, image: "cola_500.jpeg" },
 	],
 	action: ItemAction,
 ): Array<object> => {

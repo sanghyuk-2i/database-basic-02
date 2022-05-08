@@ -2,18 +2,18 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { decrease, DetailState, increase } from "../../../Modules/Details";
 
-const DetailItem = ({ name, explain, price, count = 1 }: DetailState): JSX.Element => {
+const DetailItem = ({ name, explain, price, image, count = 1 }: DetailState): JSX.Element => {
 	const dispatch = useDispatch();
 	const handleIncrease = () => {
 		console.log(count);
-		dispatch(increase({ name, explain, price, count }));
+		dispatch(increase({ name, explain, price, image, count }));
 	};
 	const handleDecrease = () => {
-		dispatch(decrease({ name, explain, price, count }));
+		dispatch(decrease({ name, explain, price, image, count }));
 	};
 	return (
 		<div className="py-4 flex justify-around items-center">
-			<img className="m-1 w-10 h-10" src="./logo192.png" alt="item picture" />
+			<img className="m-1 w-10 h-10" src={`./${image}`} alt="item picture" />
 			<div>
 				<h4 className="text-sm font-semibold">{name}</h4>
 				<p className="text-xs">{explain}</p>
