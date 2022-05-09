@@ -4,9 +4,18 @@ import { RootState } from "../../../Modules";
 import { DetailState } from "../../../Modules/Details";
 
 const Amount = (): JSX.Element => {
+	const [discountMode, isDiscountMode] = useState<boolean>(false);
 	const [usually, setUsually] = useState<number>(0);
 	const [discount, setDiscount] = useState<number>(0);
 	const [total, setTotal] = useState<number>(0);
+
+	const handleDiscount = () => {
+		isDiscountMode(!discountMode);
+	};
+
+	const checkDiscount = (value: string) => {
+		value === "" ? setDiscount(0) : setDiscount(Number(value));
+	};
 
 	const basket: DetailState[] = useSelector((state: RootState) => state.Details);
 
@@ -31,9 +40,23 @@ const Amount = (): JSX.Element => {
 				</div>
 				<div className="py-1 flex justify-between">
 					<p className="text-gray-400">
-						할인금액<button className="bg-blue-500 w-8 h-8 ml-2 scale-75 text-white font-bold rounded-full">+</button>
+						할인금액
+						<button
+							className="bg-blue-500 w-8 h-8 ml-2 scale-75 text-white font-bold rounded-full"
+							onClick={handleDiscount}
+						>
+							+
+						</button>
 					</p>
-					<p className="text-gray-400">{`${discount}%`}</p>
+					{discountMode ? (
+						<p className="text-gray-400">{`${discount}%`}</p>
+					) : (
+						<input
+							type="number"
+							className="text-black w-14 border-2 border-black text-right"
+							onChange={(e) => checkDiscount(e.target.value)}
+						/>
+					)}
 					<p className="text-gray-400">{`${usually * (discount * 0.01)}원`}</p>
 				</div>
 			</div>
