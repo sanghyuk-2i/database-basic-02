@@ -4,7 +4,7 @@ import { RootState } from "../../../Modules";
 import { DetailState } from "../../../Modules/Details";
 
 const Amount = (): JSX.Element => {
-	const [discountMode, isDiscountMode] = useState<boolean>(false);
+	const [discountMode, isDiscountMode] = useState<boolean>(true);
 	const [usually, setUsually] = useState<number>(0);
 	const [discount, setDiscount] = useState<number>(0);
 	const [total, setTotal] = useState<number>(0);
@@ -31,6 +31,7 @@ const Amount = (): JSX.Element => {
 			setUsually(0);
 		};
 	}, [basket]);
+
 	return (
 		<div className="p-4 bg-white drop-shadow-xl rounded-2xl">
 			<div className="border-b pb-2 border-gray">
