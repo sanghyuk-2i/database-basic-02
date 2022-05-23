@@ -13,6 +13,23 @@ const Amount = (): JSX.Element => {
 		isDiscountMode(!discountMode);
 	};
 
+	const handleClick = () => {
+		fetch(`http://localhost:1234/customer/1`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(basket),
+		}).then((res) => console.log(res));
+		// console.log(`
+		// 	usually : ${usually},
+		// 	discount : ${usually - total},
+		// `);
+		// console.log(`
+		// 	basket : ${JSON.stringify(basket)},
+		// `);
+	};
+
 	const checkDiscount = (value: string) => {
 		value === "" ? setDiscount(0) : setDiscount(Number(value));
 	};
@@ -65,7 +82,9 @@ const Amount = (): JSX.Element => {
 				<p>총 금액</p>
 				<p>{`${total}원`}</p>
 			</div>
-			<button className="w-full py-2 rounded-lg bg-blue-500 text-white">결제</button>
+			<button className="w-full py-2 rounded-lg bg-blue-500 text-white" onClick={handleClick}>
+				결제
+			</button>
 		</div>
 	);
 };

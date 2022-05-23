@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { addMode, deleteMode } from "../../../Modules/Nav";
+import { addMode, customerMode, deleteMode } from "../../../Modules/Nav";
 import Search from "../Search/Search";
 
 const Nav = (): JSX.Element => {
@@ -11,6 +11,9 @@ const Nav = (): JSX.Element => {
 	const handleDelete = () => {
 		dispatch(deleteMode());
 	};
+	const handleCustomer = () => {
+		dispatch(customerMode());
+	};
 	return (
 		<div className="flex flex-col">
 			<div className="flex justify-between">
@@ -19,6 +22,9 @@ const Nav = (): JSX.Element => {
 					<p className="text-base">웹으로 가능한 포스기(POS)</p>
 				</div>
 				<div className="flex items-center">
+					<button className="mx-2 p-2 bg-indigo-300 rounded" onClick={handleCustomer}>
+						이력
+					</button>
 					<button className="mx-2 p-2 bg-indigo-300 rounded" onClick={handleAdd}>
 						추가
 					</button>

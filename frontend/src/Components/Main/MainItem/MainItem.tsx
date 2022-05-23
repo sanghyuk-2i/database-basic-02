@@ -38,4 +38,4 @@ const MainItem = ({ name, explain, price, image }: ItemState): JSX.Element => {
 	);
 };
 
-export default MainItem;
+export default React.memo(MainItem, (prevProps, nextProps) => prevProps === nextProps);

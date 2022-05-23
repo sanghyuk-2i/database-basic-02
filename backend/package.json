@@ -20,7 +20,9 @@
     "typescript": "^4.6.4"
   },
   "dependencies": {
+    "@types/cors": "^2.8.12",
     "@types/mysql": "^2.15.21",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "mysql": "^2.18.1"
   }
