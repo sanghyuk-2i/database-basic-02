@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addMode } from "../../Modules/Nav";
 
-type InputState = {
+interface InputState {
 	product: string;
 	classification: string;
 	volume: string;
 	price: number;
-};
+}
 
 const AddItem = (): JSX.Element => {
 	const textData = [
@@ -16,8 +16,8 @@ const AddItem = (): JSX.Element => {
 		["volume", "용량"],
 		["price", "가격"],
 	];
-	const handleChange = (value: string | number, type: string) => {
-		let checkObj = {};
+	const handleChange = (value: string, type: string) => {
+		let checkObj: InputState = { product: "", classification: "", volume: "", price: 0 };
 		switch (type) {
 			case "product":
 				checkObj = { ...inputData, product: value };
@@ -29,7 +29,7 @@ const AddItem = (): JSX.Element => {
 				checkObj = { ...inputData, volume: value };
 				break;
 			case "price":
-				checkObj = { ...inputData, price: value };
+				checkObj = { ...inputData, price: Number(value) };
 				break;
 			default:
 				break;
@@ -38,11 +38,21 @@ const AddItem = (): JSX.Element => {
 	};
 	const handleClick = () => {
 		console.log(inputData);
+		fetch("http://localhost:1234/items", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				product_name: inputData.product,
+				product_class: inputData.classification,
+				capacity: inputData.volume,
+				price: inputData.price,
+			}),
+		});
 		dispatch(addMode());
 	};
 
 	const dispatch = useDispatch();
-	const [inputData, setInputData] = useState<InputState | object>({
+	const [inputData, setInputData] = useState<InputState>({
 		product: "",
 		classification: "",
 		volume: "",

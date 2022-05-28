@@ -10,11 +10,9 @@ const store = createStore(RootReducer);
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
-	<React.StrictMode>
-		<Provider store={store}>
-			<div className="bg-neutral-50">
-				<App />
-			</div>
-		</Provider>
-	</React.StrictMode>,
+	<Provider store={store}>
+		<div className="bg-neutral-50">
+			<App />
+		</div>
+	</Provider>,
 );

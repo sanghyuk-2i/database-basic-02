@@ -1,31 +1,29 @@
 const ADDITEM = "items/ADDITEM" as const;
+const ADDITEMS = "items/ADDITEMS" as const;
 const DELETEITEM = "items/DELETEITEM" as const;
 
 export const addItem = (item: ItemState) => ({ type: ADDITEM, payload: item });
-export const deleteItem = (name: string) => ({ type: DELETEITEM, payload: name });
+export const addItems = (item: ItemState[]) => ({ type: ADDITEMS, payload: item });
+export const deleteItem = (id: number) => ({ type: DELETEITEM, payload: id });
 
-type ItemAction = ReturnType<typeof addItem> | ReturnType<typeof deleteItem>;
+type ItemAction = ReturnType<typeof addItem> | ReturnType<typeof addItems> | ReturnType<typeof deleteItem>;
 
 export type ItemState = {
-	name: string;
-	explain: string;
+	id: number;
+	product_name: string;
+	product_class: string;
+	capacity: string;
 	price: number;
-	image: string;
 };
 
-const Items = (
-	state = [
-		{ name: "허니버터칩", explain: "분류: 과자, 용량: 150g", price: 1500, image: "honey_chip.jpeg" },
-		{ name: "신라면", explain: "분류: 식품, 용량: 80g", price: 900, image: "ramen.jpeg" },
-		{ name: "콜라(500mL)", explain: "분류: 음료, 용량: 500mL", price: 1700, image: "cola_500.jpeg" },
-	],
-	action: ItemAction,
-): Array<object> => {
+const Items = (state = [], action: ItemAction): Array<object> => {
 	switch (action.type) {
 		case ADDITEM:
 			return [...state, action.payload];
+		case ADDITEMS:
+			return [...action.payload];
 		case DELETEITEM:
-			return state.filter((item: ItemState) => item.name !== action.payload);
+			return state.filter((item: ItemState) => item.id !== action.payload);
 		default:
 			return state;
 	}

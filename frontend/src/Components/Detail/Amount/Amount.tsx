@@ -1,40 +1,87 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Modules";
-import { DetailState } from "../../../Modules/Details";
+import { clearItem, DetailState } from "../../../Modules/Details";
+
+type Customer = {
+	prod_quantity: number;
+	total: number;
+	discount: number;
+};
+
+type Receipt = {
+	customer_id: number;
+	product_id: number;
+	product_name: string;
+	quantity: number;
+};
 
 const Amount = (): JSX.Element => {
+	const dispatch = useDispatch();
+
 	const [discountMode, isDiscountMode] = useState<boolean>(true);
 	const [usually, setUsually] = useState<number>(0);
 	const [discount, setDiscount] = useState<number>(0);
 	const [total, setTotal] = useState<number>(0);
 
+	const basket: DetailState[] = useSelector((state: RootState) => state.Details);
+
 	const handleDiscount = () => {
 		isDiscountMode(!discountMode);
 	};
 
+	const convertCustomer = (basket: DetailState[]): Customer => {
+		const total_quantity = basket.map((detail) => detail.count);
+		console.log(total_quantity.reduce((acc, value) => acc + value, 0));
+		return {
+			prod_quantity: total_quantity.reduce((acc, value) => acc + value, 0),
+			total,
+			discount,
+		};
+	};
+
+	const bringId = async (): Promise<{ id: number }> => {
+		const response = await fetch("http://localhost:1234/customer/id");
+		const data = await response.json();
+		return new Promise((resolve) => resolve(data[0]));
+	};
+
+	const convertReceipt = (basket: DetailState[], c: { id: number }): Receipt[] => {
+		console.log(c);
+		return basket.map(
+			(b): Receipt => ({
+				customer_id: c.id,
+				product_id: b.id,
+				product_name: b.product_name,
+				quantity: b.count,
+			}),
+		);
+	};
+
 	const handleClick = () => {
-		fetch(`http://localhost:1234/customer/1`, {
+		fetch(`http://localhost:1234/customer`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify(basket),
-		}).then((res) => console.log(res));
-		// console.log(`
-		// 	usually : ${usually},
-		// 	discount : ${usually - total},
-		// `);
-		// console.log(`
-		// 	basket : ${JSON.stringify(basket)},
-		// `);
+			body: JSON.stringify(convertCustomer(basket)),
+		}).then(async (res) => {
+			const id = await bringId();
+			fetch(`http://localhost:1234/receipt`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(convertReceipt(basket, id)),
+			});
+		});
+		dispatch(clearItem());
 	};
 
 	const checkDiscount = (value: string) => {
 		value === "" ? setDiscount(0) : setDiscount(Number(value));
 	};
-
-	const basket: DetailState[] = useSelector((state: RootState) => state.Details);
 
 	useEffect(() => {
 		setTotal(usually - usually * (discount * 0.01));
@@ -46,6 +93,7 @@ const Amount = (): JSX.Element => {
 		}
 		return () => {
 			setUsually(0);
+			setDiscount(0);
 		};
 	}, [basket]);
 

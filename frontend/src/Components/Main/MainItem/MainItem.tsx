@@ -6,23 +6,24 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../Modules";
 import { ModeState } from "../../../Modules/Nav";
 
-const MainItem = ({ name, explain, price, image }: ItemState): JSX.Element => {
+const MainItem = ({ id, product_name, product_class, capacity, price }: ItemState): JSX.Element => {
 	const navState: ModeState = useSelector((state: RootState) => state.Nav);
 	const dispatch = useDispatch();
 	const handleAdd = () => {
-		dispatch(addItem({ name, explain, price, image, count: 1 }));
+		dispatch(addItem({ id, product_name, product_class, capacity, price, count: 1 }));
 	};
 	const handleDelete = () => {
-		dispatch(deleteItem(name));
+		dispatch(deleteItem(id));
+		fetch(`http://localhost:1234/items/${id}`, { method: "DELETE" });
 	};
 
 	return (
 		<div className="relative">
 			<div className="p-2 flex items-center bg-white rounded-3xl drop-shadow-2xl cursor-pointer" onClick={handleAdd}>
-				<img className="m-2 w-20 h-20" src={`./${image}`} alt="item picture" />
+				<img className="m-2 w-20 h-20" src={`./${product_name}.jpeg`} alt="item picture" />
 				<div className="px-2">
-					<h4 className="text-xl font-semibold">{name}</h4>
-					<p>{explain}</p>
+					<h4 className="text-xl font-semibold">{product_name}</h4>
+					<p>{`뷴류: ${product_class}, 용량: ${capacity}`}</p>
 					<span className="text-pink-600 font-bold">{`${price}원`}</span>
 				</div>
 			</div>

@@ -15,17 +15,18 @@ type DetailAction =
 	| ReturnType<typeof decrease>;
 
 export type DetailState = {
-	name: string;
-	explain: string;
+	id: number;
+	product_name: string;
+	product_class: string;
+	capacity: string;
 	price: number;
-	image: string;
 	count: number;
 };
 
 const checkPayload = (state: DetailState[], payload: DetailState): boolean => {
 	let result = false;
 	state.forEach((item) => {
-		if (item.name === payload.name) {
+		if (item.id === payload.id) {
 			result = true;
 			return;
 		}
@@ -35,7 +36,7 @@ const checkPayload = (state: DetailState[], payload: DetailState): boolean => {
 
 const mergeIncrease = (state: DetailState[], newItem: DetailState) => {
 	return state.map((item: DetailState) => {
-		if (item.name === newItem.name) {
+		if (item.id === newItem.id) {
 			return { ...newItem, count: newItem.count + 1 };
 		} else {
 			return item;
@@ -45,8 +46,8 @@ const mergeIncrease = (state: DetailState[], newItem: DetailState) => {
 
 const mergeDecrease = (state: DetailState[], newItem: DetailState) => {
 	return state.map((item: DetailState) => {
-		if (item.name === newItem.name) {
-			console.log(item.name);
+		if (item.id === newItem.id) {
+			console.log(item.id);
 			const result = newItem.count - 1 === 0 ? 1 : newItem.count - 1;
 			console.log(result);
 			return { ...newItem, count: result };
